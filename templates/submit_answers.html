@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit</title>
+</head>
+<body>
+    <h1>Score: {{score}}</h1>
+    <form action="{{ url_for('get_quiz') }}" method="get" >
+        <input type="hidden" name="grade" value="{{grade}}">
+        <input type="hidden" name="topic" value="{{topic}}">
+        <input type="hidden" name="score" value="{{score}}">
+        <button type="submit">More Questions</button>
+    </form>
+    <form action="{{ url_for('generate_quiz_topic_select') }}" method="get">
+        <button type="submit">New Quiz</button>
+    </form>
+</body>
+</html>

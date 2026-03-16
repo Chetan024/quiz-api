@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <form action="{{ url_for('submit_answers') }}" method="post">
+    {% for question in questions %}
+        <div class="question">
+            <p><strong>{{ loop.index }}. {{ question.question }}</strong></p>
+
+            {% if question.type == "MCQ" %}
+                {% for option in question.options %}
+                    {# We create a unique ID using question ID and loop index #}
+                    {% set opt_id = "q" ~ question.question_id ~ "_" ~ loop.index %}
+                    <input type="radio" id="{{ opt_id }}" name="{{ question.question_id }}" value="{{ option }}">
+                    <label for="{{ opt_id }}">{{ option }}</label><br>
+                {% endfor %}
+
+            {% elif question.type == "Fill" %}
+                <input type="text" name="{{ question.question_id }}" placeholder="Type your answer here">
+
+            {% elif question.type == "True/False" %}
+                <input type="radio" id="q{{ question.question_id }}_t" name="{{ question.question_id }}" value="True">
+                <label for="q{{ question.question_id }}_t">True</label>
+                
+                <input type="radio" id="q{{ question.question_id }}_f" name="{{ question.question_id }}" value="False">
+                <label for="q{{ question.question_id }}_f">False</label>
+            {% endif %}
+        </div>
+        <hr>
+    {% endfor %}
+    <input type="hidden" name="grade" value="{{grade}}">
+    <input type="hidden" name="topic" value="{{topic}}">
+    <button type="submit">Submit Answers</button>
+</form>
+</body>
+</html>

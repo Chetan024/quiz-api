@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate Quiz</title>
+  </head>
+  <body>
+    <form action="{{ url_for('generate_quiz')}}" method="post">
+      <label for="grade">Select Grade:</label>
+      <select id="grade" name="grade" onchange="updateTopics()">
+        {% for grade in grades_topics.keys() %}
+        <option value="{{ grade }}">{{ grade }}</option>
+        {% endfor %}
+      </select>
+
+      <br /><br />
+
+      <label for="topic">Select Topic:</label>
+      <select id="topic" name="topic"></select>
+
+      <br /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+
+      let gradesTopics = JSON.parse('{{ grades_topics | tojson | safe }}');
+
+      function updateTopics() {
+
+          let grade = document.getElementById("grade").value;
+          let topicSelect = document.getElementById("topic");
+
+          topicSelect.innerHTML = "";
+
+          gradesTopics[grade].forEach(function(topic){
+
+              let option = document.createElement("option");
+              option.value = topic;
+              option.text = topic;
+
+              topicSelect.appendChild(option);
+
+          });
+
+      }
+
+      updateTopics();
+    </script>
+  </body>
+</html>
